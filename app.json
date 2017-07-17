@@ -1,0 +1,6 @@
+{
+  "name": "PoC AWS - S3",
+  "description": "Proof of Concepts - Working with S3",
+  "repository": "https://github.com/dbaldo/poc-aws-heroku",
+  "keywords": ["node", "express", "heroku"]
+}

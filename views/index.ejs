@@ -69,7 +69,7 @@
       </div>
     </div><!-- row -->
     <div>
-      <div class="alert alert-warning" role="alert" style="display: block">Arquivo criado com sucesso</div>
+      <div class="alert alert-warning" role="alert">Arquivo criado com sucesso</div>
       <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
   </form>  
@@ -79,13 +79,7 @@
 
   $(function() { 
 
-    $("form-message").submit(function(event) { 
-      event.stopPropagation();
-      event.preventDefault();
-
-      alert("Teste");
-
-    });
+    $("alert").hide();
 
   });
 

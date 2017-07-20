@@ -1,66 +1,97 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <% include ../partials/header.ejs %>
+  <title>POC AWS - DataLake</title>
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 </head>
 
 <body>
 
-  <% include ../partials/nav.ejs %>
-
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="/lang-logo.png">
-    </a>
-    <h1>Getting Started with Node on Heroku v1.0 dev branch</h1>
-    <p>This is a sample Node application deployed to Heroku. It's a reasonably simple app - but a good foundation for understanding how to get the most out of the Heroku platform.</p>
-    <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs"><span class="glyphicon glyphicon-flash"></span> Getting Started with Node</a>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/node-js-getting-started"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
-  </div>
-</div>
 <div class="container">
-  <div class="alert alert-info text-center" role="alert">
-    To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" class="alert-link">Getting Started with Node on Heroku</a> tutorial.
-  </div>
-  <hr>
   <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
-      <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/node-js-getting-started">Heroku Button</a> on the repository.</li>
-
-        <li>When Heroku received the source code, it fetched all the dependencies in the <a href="https://github.com/heroku/node-js-getting-started/blob/master/package.json">package.json</a>, creating a deployable slug.</li>
-        <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on services</a>, from the Dashboard or CLI.</li>
-      </ul>
+    <form method="POST" id="form-message" name="form-message">
+      <h3><span class="glyphicon glyphicon-info-sign"></span> Generate message to s3</h3>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="setor">Example select</label>
+          <select class="form-control" id="setor" name="setor">
+            <option>PAOFF</option>
+            <option>PAON</option>
+            <option>AFOFF</option>
+            <option>AFON</option>
+            <option>WEON</option>
+            <option>WEOFF</option>
+          </select>
+        </div>        
+        <div class="form-group">
+          <label for="chassi">Chassi</label>
+          <input type="text" class="form-control" maxlength="18" id="chassi" name="chassi" 
+              placeholder="Entre com o Chassi" value="<%= chassi %>" required>
+        </div>
+        <div class="form-group">
+          <label for="modelo">Modelo</label>
+          <input type="text" class="form-control" maxlength="10" id="modelo" name="modelo" 
+              placeholder="Entre com o Modelo" value="<%= modelo %>" required>
+        </div>       
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="chassi">Cor</label>
+          <input type="text" class="form-control" maxlength="12" id="cor" name="cor" 
+              placeholder="Entre com a Cor" value="<%= cor %>" required>
+        </div>        
+        <div class="form-group">
+          <label for="datein">Data Entrada</label>
+          <div class="row">
+            <div class="col-md-6">
+              <input type="date" class="form-control" id="date_in" name="date_in" value="<%= date_in %>" required>
+            </div>
+            <div class="col-md-6">
+              <input type="time" class="form-control" id="time_in" name="time_in" value="<%= time_in %>" required>          
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dateout">Data Saida</label>
+          <div class="row">
+            <div class="col-md-6">
+              <input type="date" class="form-control" id="date_out" name="date_out" value="<%= date_out %>" required>
+            </div>
+            <div class="col-md-6">
+              <input type="time" class="form-control" id="time_out" name="time_out" value="<%= time_out %>" required>          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- row -->
+    <div>
+      <div class="alert alert-warning" role="alert" style="display: block">Arquivo criado com sucesso</div>
+      <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-link"></span> Next Steps</h3>
-      <ul>
-        <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started</a> guide, then please head back to the tutorial and follow the next steps!</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/node-js-getting-started.git</code> - this will create a local copy of the source code for the app</li>
-          <li><code>cd node-js-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs#push-local-changes">deploy changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started with Node on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/deploying-nodejs">Deploying Node Apps on Heroku</a></li>
-      </ul>
-    </div>
-  </div> <!-- row -->
-   <div class="alert alert-info text-center" role="alert">
-    Please do work through the Getting Started guide, even if you do know how to build such an application.  The guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build and deploy your own apps.
-  </div>
+  </form>  
 </div>
 
+<script type="text/javascript">
+
+  $(function() { 
+
+    $("form-message").submit(function(event) { 
+      event.stopPropagation();
+      event.preventDefault();
+
+      alert("Teste");
+
+    });
+
+  });
+
+</script>
 
 </body>
+
+
 </html>

@@ -13,7 +13,7 @@ CloudStorage.prototype.uploadText = function(key, obj) {
          if (err) {
              console.log(err);
          } else {
-             console.log("Dados enviados com sucesso para myBucket/myKey");
+             console.log("Dados enviados com sucesso para poc-aws-datalake-s3/" + key);
          }
       });
 

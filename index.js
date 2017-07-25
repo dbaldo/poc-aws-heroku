@@ -1,4 +1,5 @@
 var express = require('express');
+var util = require('./util.js');
 var cloudStorage = require('./cloud-storage.js');
 var bodyParser = require('body-parser');
 
@@ -17,6 +18,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+
+//GET /
 app.get('/', function(req, res) {
   
   var data = { 
@@ -34,20 +37,24 @@ app.get('/', function(req, res) {
 
 });
 
+//POST /
 app.post('/', function(req, res) {
   
   var returnData = req.body;
 
-  returnData.messageText = req.body.setor + req.body.chassi + 
-    req.body.cor + " B" + req.body.date_in + req.body.time_in + 
-    req.body.date_out + req.body.time_out; 
-
-  cloud.uploadText("test123", returnData.messageText);
+  returnData.messageText = util.lpad(req.body.setor,5,' ') + 
+      util.lpad(req.body.chassi,18,' ') + 
+      util.lpad(req.body.cor,7) + " B" + 
+      util.clearDateTime(req.body.date_in + req.body.time_in) + 
+      util.clearDateTime(req.body.date_out + req.body.time_out); 
+  
+  cloud.uploadText("msg-" + new Date().toISOString(), returnData.messageText);
 
   res.render('index', req.body);
 
 });
 
+//LISTEN : 5000
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });

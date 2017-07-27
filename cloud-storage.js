@@ -2,11 +2,12 @@ var AWS = require('aws-sdk');
 var s3 = new AWS.S3();
 
 var CloudStorage = function() { 
-    this.myBucket = 'poc-aws-datalake-s3';
+    this.myBucket = 'poc-honda-raw';
 };
 
 CloudStorage.prototype.uploadText = function(key, obj) { 
-         
+        
+    key = 'producao/mensagens/' + key;
     params = {Bucket: this.myBucket, Key: key, Body: obj};
     
     s3.putObject(params, function(err, data) {

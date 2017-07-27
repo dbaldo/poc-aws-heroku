@@ -9,7 +9,7 @@ var cloud = new cloudStorage();
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
@@ -42,11 +42,12 @@ app.post('/', function(req, res) {
   
   var returnData = req.body;
 
-  returnData.messageText = util.lpad(req.body.setor,5,' ') + 
-      util.lpad(req.body.chassi,18,' ') + 
-      util.lpad(req.body.cor,7) + " B" + 
+  returnData.messageText = util.rpad(req.body.setor,5,' ') + 
+      util.rpad(req.body.chassi,17,' ') + 
+      util.rpad(req.body.modelo,9,' ') + 
+      util.rpad(req.body.cor,7, ' ') + " B " + 
       util.clearDateTime(req.body.date_in + req.body.time_in) + 
-      util.clearDateTime(req.body.date_out + req.body.time_out); 
+      util.clearDateTime(req.body.date_out + req.body.time_out) + "04N"; 
   
   cloud.uploadText("msg-" + new Date().toISOString(), returnData.messageText);
 

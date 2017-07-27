@@ -8,7 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}\\index.js"
+            "program": "${workspaceRoot}\\index.js",
+            "env": {
+                "S3_BUCKET": "poc-aws-datalake-s3"
+            }
         }
     ]
 }

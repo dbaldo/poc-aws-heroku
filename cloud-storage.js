@@ -2,7 +2,7 @@ var AWS = require('aws-sdk');
 var s3 = new AWS.S3();
 
 var CloudStorage = function() { 
-    this.myBucket = 'poc-honda-raw';
+    this.myBucket = process.env.S3_BUCKET;
 };
 
 CloudStorage.prototype.uploadText = function(key, obj) { 

@@ -30,7 +30,9 @@ app.get('/', function(req, res) {
       date_in: new Date(),
       time_in: "12:00",
       date_out: new Date(),
-      time_out: "12:00"     
+      time_out: "12:00",
+      messageText: "",
+      hasError: false
     };
 
   res.render('index', data);
@@ -41,7 +43,7 @@ app.get('/', function(req, res) {
 app.post('/', function(req, res) {
   
   var returnData = req.body;
-
+  returnData.hasError = false;
   returnData.messageText = util.rpad(req.body.setor,5,' ') + 
       util.rpad(req.body.chassi,17,' ') + 
       util.rpad(req.body.modelo,9,' ') + 
@@ -49,10 +51,18 @@ app.post('/', function(req, res) {
       util.clearDateTime(req.body.date_in + req.body.time_in) + 
       util.clearDateTime(req.body.date_out + req.body.time_out) + "04N"; 
   
-  cloud.uploadText("msg-" + new Date().toISOString(), returnData.messageText);
+  var key = "msg-" + new Date().toISOString();
 
-  res.render('index', req.body);
-
+  cloud.uploadText(key,
+    returnData.messageText,
+    function(key, error) {
+      if (error) {
+        returnData.hasError = true;
+      }
+      res.render('index', req.body);
+    }
+  );
+  
 });
 
 //LISTEN : 5000

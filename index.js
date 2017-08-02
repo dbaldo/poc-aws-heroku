@@ -46,8 +46,8 @@ app.post('/', function(req, res) {
   returnData.hasError = false;
   returnData.messageText = util.rpad(req.body.setor,5,' ') + 
       util.rpad(req.body.chassi,17,' ') + 
-      util.rpad(req.body.modelo,9,' ') + 
-      util.rpad(req.body.cor,7, ' ') + " B " + 
+      util.rpad(req.body.modelo,10,' ') + 
+      util.rpad(req.body.cor,10, ' ') + "B " + 
       util.clearDateTime(req.body.date_in + req.body.time_in) + 
       util.clearDateTime(req.body.date_out + req.body.time_out) + "04N"; 
   
